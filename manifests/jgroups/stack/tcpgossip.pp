@@ -9,6 +9,7 @@ define wildfly::jgroups::stack::tcpgossip (
   String  $initial_hosts,
   Integer $num_initial_members,
   Integer $timeout = 3000,
+  Optional[String] $profile = undef,
 ) {
   $properties = {
     'properties' => {
@@ -19,6 +20,7 @@ define wildfly::jgroups::stack::tcpgossip (
   }
 
   wildfly::jgroups::stack::tcp { 'TCPGOSSIP':
+    profile    => $profile,
     properties => $properties,
   }
 }
