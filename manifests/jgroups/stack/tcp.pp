@@ -4,11 +4,13 @@
 # @param properties TCP properties hash.
 #
 define wildfly::jgroups::stack::tcp (
-  Hash $properties,
+  Hash             $properties,
+  Optional[String] $profile = undef,
 ) {
   $stack = downcase($title)
 
   wildfly::jgroups::stack { $stack:
+    profile   => $profile,
     protocols => [
       $title,
       'MERGE3',
@@ -31,9 +33,11 @@ define wildfly::jgroups::stack::tcp (
     },
   }
   -> wildfly::resource { "/subsystem=jgroups/stack=${stack}/protocol=${title}":
+    profile => $profile,
     content => $properties,
   }
   -> wildfly::resource { '/subsystem=jgroups':
+    profile => $profile,
     content => {
       'default-stack' => $stack,
     },

@@ -9,10 +9,11 @@
 #                   Example: initial_hosts=A[7800] port_range=0 probes A:7800, port_range=1 probes A:7800 and A:7801.
 #
 define wildfly::jgroups::stack::tcpping (
-  String  $initial_hosts,
-  Integer $num_initial_members,
-  Integer $timeout    = 3000,
-  Integer $port_range = 0,
+  String           $initial_hosts,
+  Integer          $num_initial_members,
+  Integer          $timeout    = 3000,
+  Integer          $port_range = 0,
+  Optional[String] $profile = undef,
 ) {
   $properties = {
     'properties' => {
@@ -24,6 +25,7 @@ define wildfly::jgroups::stack::tcpping (
   }
 
   wildfly::jgroups::stack::tcp { 'TCPPING':
+    profile    => $profile,
     properties => $properties,
   }
 }
